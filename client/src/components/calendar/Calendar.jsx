@@ -11,7 +11,9 @@ export default class Calendar extends Component {
       dateContext: moment(),
       today: moment(),
       showMonthPopup: false,
-      showYearPopup: false
+      showYearEditor: false,
+      currentMonth: moment().format("MMMM"),
+      currentYear: moment().format("Y")
     }
   }
   //Obtaining basic names for days of the week and months
@@ -33,17 +35,92 @@ export default class Calendar extends Component {
     <td key={day} className="week-day">{day}</td>)
   );
 
+
+  //Creating functionality to view another month
+  setMonth = (e, month) => {
+    let monthNo = this.months.indexOf(month);
+    this.setState({
+      dateContext: moment().set("month", monthNo),
+      currentMonth: moment().set("month", monthNo).format("MMMM")
+    });
+    this.props.monthPopup && this.props.monthPopup();
+  }
+  MonthList = (props) => {
+    let popup = props.data.map((month) => {
+      return (
+        <div key={month}>
+          <a href='#' onClick={(e) => {this.setMonth(e, month)}}>{month}</a>
+        </div>
+      )
+    });
+    return (
+        <div className="month-popup">{popup}</div>
+    );
+  }
+
+  monthPopup = (e, month) => {
+    this.setState({
+      showMonthPopup: !this.state.showMonthPopup
+    });
+  }
+
+  MonthNav = () => {
+    return (
+      <span className="label-month" onClick={(e) => {this.monthPopup(e, this.month())}}>
+        <FontAwesome
+          className='arrow'
+          name={this.state.showMonthPopup ? 'caret-up' : 'caret-down'}
+          style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)' }}
+        /> {this.month()}
+        {this.state.showMonthPopup ? <this.MonthList data={this.months} /> : ""}
+      </span>
+    );
+  }
+
+  showYearEditor = () => {
+    this.setState({
+      showYearEditor: true
+    });
+  }
+
+  onYearChange = (e) => {
+    this.setYear(e.target.value);
+    this.props.onYearChange && this.props.onYearChange(e, e.target.value);
+  }
+
+  //Creating functionality to view another month
+  YearNav = () => {
+    return (
+      this.state.showYearEditor ?
+      <input
+        defaultValue = {this.year()}
+        className = "editor-year"
+        ref = {(yearInput) => {this.yearInput = yearInput}}
+        //onKeyUp = {(e) => {onKeyUpYear(e)}}
+        onChange = {(e) => this.onYearChange(e)}
+        type = "number"
+        placeholder = "year" />
+      :
+      <span className="label-year"
+      onDoubleClick={(e) => {this.showYearEditor()}}>{this.year()}</span>
+    );
+  }
+
   render() {
+    //Quick tests:
+    console.log(moment().format('MMM D Y')); //current day in common US format
+    console.log(this.state.currentMonth, this.state.currentYear);
+
     //figuring out how many "blanks" before the calendar starts
-    let blanks = new Array();
+    let blanks = new Array(0);
     for (let i = 0; i <  this.firstDayOfMonth(); i++) {
       blanks.push(<td key={`empty${i}`} className="emptySlots">{""}</td>);
     }
 
     //Fill the tiles of the calendar with content of the day
-    let daysInMonth = new Array();
+    let daysInMonth = new Array(0);
     for (let day = 1; day <= this.daysInMonth(); day++) {
-      let className = (day == this.currentDay() ? "day current-day" : "day");
+      let className = (day == this.currentDay() ? "day current-day" : "day"); //must be '==' and not '===' despite warning1
       daysInMonth.push(
         <td key={day} className={className}>
           <span>{day}</span>
@@ -52,8 +129,8 @@ export default class Calendar extends Component {
     }
 
     let totalTiles = [...blanks, ...daysInMonth];
-    let rows = new Array();
-    let cells = new Array();
+    let rows = new Array(0);
+    let cells = new Array(0);
 
     totalTiles.map((currentValue, index) => {
       if ((index % 7) !== 0) {
@@ -65,10 +142,11 @@ export default class Calendar extends Component {
         cells = [];
         cells.push(currentValue);
       }
-      if (index == totalTiles.length - 1) {
+      if (index === totalTiles.length - 1) {
         let insertRow = cells.slice();
         rows.push(insertRow);
       }
+      return 0; //no warnings
     });
 
     let trElems = rows.map((data, index) => (
@@ -78,15 +156,21 @@ export default class Calendar extends Component {
     return (
       <section className="calendar-container">
         <FontAwesome
-          className='rocket'
-          name='rocket'
-          size='1x'
+          className='star'
+          name='star'
+          size='sm'
           spin
-          style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)' }}
+          style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)', color: '#F0CA4D' }}
         /> Calendar
+
         <table className="calendar">
           <thead>
             <tr className="calendar-header"></tr>
+              <td colSpan="5">
+                <this.MonthNav />
+                {" "}
+                <this.YearNav />
+              </td>
           </thead>
 
           <tbody>
