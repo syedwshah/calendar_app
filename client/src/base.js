@@ -2,12 +2,12 @@ import Rebase from 're-base';
 import firebase from 'firebase';
 
 const config = {
-  apiKey: "AIzaSyDgq71_ei2Uifk9fTIShRyOwDCvL9kPooY",
-  authDomain: "calendar-8a386.firebaseapp.com",
-  databaseURL: "https://calendar-8a386.firebaseio.com",
-  projectId: "calendar-8a386",
+  apiKey: process.env.REACT_APP_FIREBASE_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_DOMAIN,
+  databaseURL: process.env.REACT_APP_FIREBASE_DATABASE,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
   storageBucket: "",
-  messagingSenderId: "963138439604"
+  messagingSenderId: process.env.REACT_APP_FIREBASE_SENDER_ID
 };
 
 const app = firebase.initializeApp(config);
