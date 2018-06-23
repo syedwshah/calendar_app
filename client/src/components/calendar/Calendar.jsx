@@ -9,10 +9,9 @@ export default class Calendar extends Component {
     super(props);
     this.state = {
       dateContext: moment(),
-      today: moment(),
       showMonthPopup: false,
       showYearEditor: false,
-      currentDay: '',
+      currentDay: null,
       currentMonth: moment().format("MMMM"),
       currentYear: moment().format("Y")
     }
@@ -146,10 +145,10 @@ export default class Calendar extends Component {
     this.setState({
       currentDay: day
     })
-    alert(`You clicked on: ${this.state.currentMonth} ${day} ${this.state.currentYear}`);
-    this.props.store["currentDay"] = day;
-    this.props.store["currentMonth"] = this.state.currentMonth;
-    this.props.store["currentYear"] = this.state.currentYear;
+
+    let selectedDateID = this.state.currentMonth + day + this.state.currentYear;
+    let selectedDate = `${this.state.currentMonth} ${day} ${this.state.currentYear}`;
+    this.props.handleStoreChange(selectedDateID, selectedDate);
   }
 
   render() {
@@ -163,7 +162,6 @@ export default class Calendar extends Component {
     let daysInMonth = new Array(0);
     for (let day = 1; day <= this.daysInMonth(); day++) {
       let className = (day == this.currentDay() ? "day current-day" : "day"); //must be '==' and not '===' despite warning
-      let eventValue = '';
       daysInMonth.push(
         <td key={day} className={className} onClick={(e) => {this.onDayClick(e, day)}}>
           <span>{day}</span>
