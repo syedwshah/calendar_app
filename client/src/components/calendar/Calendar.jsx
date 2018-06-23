@@ -12,6 +12,7 @@ export default class Calendar extends Component {
       today: moment(),
       showMonthPopup: false,
       showYearEditor: false,
+      currentDay: '',
       currentMonth: moment().format("MMMM"),
       currentYear: moment().format("Y")
     }
@@ -140,8 +141,15 @@ export default class Calendar extends Component {
     );
   }
 
+  //Maybe this can create values in the DB when a day is clicked.
   onDayClick = (e, day) => {
+    this.setState({
+      currentDay: day
+    })
     alert(`You clicked on: ${this.state.currentMonth} ${day} ${this.state.currentYear}`);
+    this.props.store["currentDay"] = day;
+    this.props.store["currentMonth"] = this.state.currentMonth;
+    this.props.store["currentYear"] = this.state.currentYear;
   }
 
   render() {
@@ -155,6 +163,7 @@ export default class Calendar extends Component {
     let daysInMonth = new Array(0);
     for (let day = 1; day <= this.daysInMonth(); day++) {
       let className = (day == this.currentDay() ? "day current-day" : "day"); //must be '==' and not '===' despite warning
+      let eventValue = '';
       daysInMonth.push(
         <td key={day} className={className} onClick={(e) => {this.onDayClick(e, day)}}>
           <span>{day}</span>
@@ -188,16 +197,8 @@ export default class Calendar extends Component {
     ));
 
     return (
-      <section className="calendar-container">
-        <FontAwesome
-          className='star'
-          name='star'
-          size='lg'
-          spin
-          style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)', color: '#F0CA4D' }}
-        /> Calendar
-
-        <table className="calendar">
+      <section className="calendar-container w3-responsive w3-striped w3-border">
+        <table className="calendar w3-table w3-large">
           <thead>
             <tr className="calendar-header">
               <td colSpan="5">
@@ -206,10 +207,10 @@ export default class Calendar extends Component {
                 <this.YearNav />
               </td>
               <td colSpan="2" className="nav-month">
-                <FontAwesome className='star' name='chevron-left' style={{ color: 'black' }}
+                <FontAwesome name='chevron-left' style={{ color: 'black' }}
                   onClick={(e) => {this.prevMonth()}} />
                   {" "}
-                <FontAwesome className='star' name='chevron-right' style={{ color: 'black' }}
+                <FontAwesome name='chevron-right' style={{ color: 'black' }}
                   onClick={(e) => {this.nextMonth()}} />
               </td>
             </tr>

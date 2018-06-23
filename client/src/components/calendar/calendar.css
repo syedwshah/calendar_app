@@ -1,7 +1,5 @@
 table {
-  /*width: 50%;*/
-  border: 2px solid rgba(0,0,255,.3);
-  /*border-collapse: collapse;*/
+  /*border: 2px solid black;*/
 }
 
 td {
@@ -15,19 +13,23 @@ tr.elem>td.emptySlots:hover {
   background-color: white;
 }
 
-.current-day {
+/*.current-day {
   background-color: rgba(0,0,255,.2);
   border-radius: 50%;
 }
-
+*/
 .label-month {
   color: purple;
+}
+
+.calendar-header {
+  background-color: rgba(0,0,255,.2);
 }
 
 .month-popup {
   background-color: white;
   position: absolute;
-  left: 25%;
+  /*left: 25%;*/
   border: 1px solid black;
   padding: 5px;
 }
@@ -36,5 +38,13 @@ tr.elem>td.emptySlots:hover {
 }
 
 .elem{
-  /*height: 75px;*/
+
+}
+
+.event{
+  background-color: white;
+  position: absolute;
+  left: 25%;
+  border: 1px solid black;
+  padding: 5px;
 }
