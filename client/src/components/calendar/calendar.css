@@ -1,5 +1,5 @@
 table {
-  /*width: 75%;*/
+  /*width: 50%;*/
   border: 2px solid rgba(0,0,255,.3);
   /*border-collapse: collapse;*/
 }
@@ -27,11 +27,14 @@ tr.elem>td.emptySlots:hover {
 .month-popup {
   background-color: white;
   position: absolute;
-  /*left: 25%;*/
+  left: 25%;
   border: 1px solid black;
   padding: 5px;
 }
+.month-button {
+  border: none;
+}
 
 .elem{
-  /*height: 100px;*/
+  /*height: 75px;*/
 }

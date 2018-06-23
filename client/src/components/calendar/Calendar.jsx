@@ -35,21 +35,38 @@ export default class Calendar extends Component {
     <td key={day} className="week-day">{day}</td>)
   );
 
+  //Traversing adjacent months
+  nextMonth = () => {
+    let dateContext = moment(this.state.dateContext).add(1, 'month');
+    this.setState({
+      dateContext: dateContext,
+      currentMonth: dateContext.format('MMMM')
+    });
+  }
+
+  prevMonth = () => {
+    let dateContext = moment(this.state.dateContext).subtract(1, 'month');
+    this.setState({
+      dateContext: dateContext,
+      currentMonth: dateContext.format('MMMM')
+    });
+  }
+
 
   //Creating functionality to view another month
   setMonth = (e, month) => {
     let monthNo = this.months.indexOf(month);
+    let dateContext = moment(this.state.dateContext).set("month", monthNo)
     this.setState({
-      dateContext: moment().set("month", monthNo),
-      currentMonth: moment().set("month", monthNo).format("MMMM")
+      dateContext: dateContext,
+      currentMonth: dateContext.format("MMMM")
     });
-    this.props.monthPopup && this.props.monthPopup();
   }
   MonthList = (props) => {
     let popup = props.data.map((month) => {
       return (
         <div key={month}>
-          <a href='#' onClick={(e) => {this.setMonth(e, month)}}>{month}</a>
+          <button className="month-button" onClick={(e) => {this.setMonth(e, month)}}>{month}</button>
         </div>
       )
     });
@@ -83,9 +100,26 @@ export default class Calendar extends Component {
     });
   }
 
+  setYear = (year) => {
+    let dateContext = moment(this.state.dateContext).set("year", year);
+    this.setState({
+      dateContext: dateContext,
+      currentYear: dateContext.format("Y")
+    })
+  }
+
   onYearChange = (e) => {
     this.setYear(e.target.value);
-    this.props.onYearChange && this.props.onYearChange(e, e.target.value);
+  }
+
+  //Select year on 'Enter' or 'Escape' key
+  onKeyUpYear = (e) => {
+    if (e.which === 13 || e.which === 27) {
+      this.setYear(e.target.value);
+      this.setState({
+        showYearEditor: false
+      });
+    }
   }
 
   //Creating functionality to view another month
@@ -94,23 +128,23 @@ export default class Calendar extends Component {
       this.state.showYearEditor ?
       <input
         defaultValue = {this.year()}
-        className = "editor-year"
+        className = "year-editor"
         ref = {(yearInput) => {this.yearInput = yearInput}}
-        //onKeyUp = {(e) => {onKeyUpYear(e)}}
+        onKeyUp = {(e) => {this.onKeyUpYear(e)}}
         onChange = {(e) => this.onYearChange(e)}
         type = "number"
         placeholder = "year" />
       :
       <span className="label-year"
-      onDoubleClick={(e) => {this.showYearEditor()}}>{this.year()}</span>
+      onClick={(e) => {this.showYearEditor()}}>{this.year()}</span>
     );
   }
 
-  render() {
-    //Quick tests:
-    console.log(moment().format('MMM D Y')); //current day in common US format
-    console.log(this.state.currentMonth, this.state.currentYear);
+  onDayClick = (e, day) => {
+    alert(`You clicked on: ${this.state.currentMonth} ${day} ${this.state.currentYear}`);
+  }
 
+  render() {
     //figuring out how many "blanks" before the calendar starts
     let blanks = new Array(0);
     for (let i = 0; i <  this.firstDayOfMonth(); i++) {
@@ -120,9 +154,9 @@ export default class Calendar extends Component {
     //Fill the tiles of the calendar with content of the day
     let daysInMonth = new Array(0);
     for (let day = 1; day <= this.daysInMonth(); day++) {
-      let className = (day == this.currentDay() ? "day current-day" : "day"); //must be '==' and not '===' despite warning1
+      let className = (day == this.currentDay() ? "day current-day" : "day"); //must be '==' and not '===' despite warning
       daysInMonth.push(
-        <td key={day} className={className}>
+        <td key={day} className={className} onClick={(e) => {this.onDayClick(e, day)}}>
           <span>{day}</span>
         </td>
       );
@@ -158,19 +192,27 @@ export default class Calendar extends Component {
         <FontAwesome
           className='star'
           name='star'
-          size='sm'
+          size='lg'
           spin
           style={{ textShadow: '0 1px 0 rgba(0, 0, 0, 0.1)', color: '#F0CA4D' }}
         /> Calendar
 
         <table className="calendar">
           <thead>
-            <tr className="calendar-header"></tr>
+            <tr className="calendar-header">
               <td colSpan="5">
                 <this.MonthNav />
                 {" "}
                 <this.YearNav />
               </td>
+              <td colSpan="2" className="nav-month">
+                <FontAwesome className='star' name='chevron-left' style={{ color: 'black' }}
+                  onClick={(e) => {this.prevMonth()}} />
+                  {" "}
+                <FontAwesome className='star' name='chevron-right' style={{ color: 'black' }}
+                  onClick={(e) => {this.nextMonth()}} />
+              </td>
+            </tr>
           </thead>
 
           <tbody>
