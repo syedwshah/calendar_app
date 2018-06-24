@@ -13,11 +13,10 @@ tr.elem>td.emptySlots:hover {
   background-color: white;
 }
 
-/*.current-day {
+.current-day {
   background-color: rgba(0,0,255,.2);
-  border-radius: 50%;
 }
-*/
+
 .label-month {
   color: purple;
 }
