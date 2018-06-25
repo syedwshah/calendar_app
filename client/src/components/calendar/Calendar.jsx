@@ -52,7 +52,6 @@ export default class Calendar extends Component {
     });
   }
 
-
   //Creating functionality to view another month
   setMonth = (e, month) => {
     let monthNo = this.months.indexOf(month);
@@ -144,11 +143,10 @@ export default class Calendar extends Component {
   onDayClick = (e, day) => {
     this.setState({
       currentDay: day
-    })
-
-    let selectedDateID = this.state.currentMonth + day + this.state.currentYear;
+    });
     let selectedDate = `${this.state.currentMonth} ${day} ${this.state.currentYear}`;
-    this.props.handleStoreChange(selectedDateID, selectedDate);
+    this.props.handleStoreChange(selectedDate);
+    this.props.handleFormClickOnce();
   }
 
   render() {
@@ -219,7 +217,6 @@ export default class Calendar extends Component {
             {trElems}
           </tbody>
         </table>
-
       </section>
     );
   }
