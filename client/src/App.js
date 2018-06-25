@@ -91,7 +91,7 @@ class App extends Component {
               return (
                 <div key={`detail${index}`}>
                   <div>
-                    {details[index].start_time} - {details[index].end_time} {details[index].details}
+                    {details[index].start_time} ~ {details[index].end_time}: {details[index].details}
                     {"   "}
                     <button className="delete w3-red"
                       onClick={(e) => {
@@ -107,7 +107,7 @@ class App extends Component {
     });
     return (
       <section className="all-events">
-        <div>APPOINTMENTS</div>
+        {(!Object.keys(this.state.events).length) ? "No Current" : ""} Appointments
         {appointments}
       </section>
     );

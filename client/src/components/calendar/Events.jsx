@@ -19,6 +19,10 @@ export default class Events extends Component {
     this.setState(change);
   }
 
+  toggleSubmit = () => (
+    (this.state.start && this.state.end && this.state.details)
+  )
+
   handleSubmit = (e) => {
     e.preventDefault();
     this.props.addEvent(
@@ -59,7 +63,7 @@ export default class Events extends Component {
               <textarea placeholder="Details for this event" value={this.state.details} onChange={(e) => (this.handleChange(e, "details"))} />
             </label>
             <br />
-            <button type="submit" value="Submit" className="w3-button w3-round-xxlarge w3-teal"
+            <button type="submit" disabled={!this.toggleSubmit()} value="Submit" className="w3-button w3-round-xxlarge w3-teal"
               onClick={() => {this.props.handleFormClick()}}>
               submit
             </button>
