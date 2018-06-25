@@ -9,3 +9,5 @@ Back-End: Firebase
 Since this is a React+Firebase App, the backend is instantiated here
 and kept on Firebase's server. Connection to the backend is made
 in /client/src/base.js
+
+Deployed Link: https://calendar-dbeab.firebaseapp.com/
