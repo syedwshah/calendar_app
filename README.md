@@ -38,7 +38,7 @@ The following **additional** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-https://github.com/syedwshah/calendar_app/blob/master/README.md
+[![35265800_1999317306779010_7589769861337710592_n.gif](https://s8.postimg.cc/qbhbsa5yd/35265800_1999317306779010_7589769861337710592_n.gif)](https://postimg.cc/image/3ms4spokh/)
 
 
 ## Notes
