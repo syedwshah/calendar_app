@@ -34,7 +34,7 @@ The following **optional** features are implemented:
 The following **additional** features are implemented:
 * [x] Switch between years
 
-## Video Walkthrough
+## Walkthrough
 
 Here's a walkthrough of implemented user stories:
 
