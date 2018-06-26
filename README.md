@@ -38,9 +38,8 @@ The following **additional** features are implemented:
 
 Here's a walkthrough of implemented user stories:
 
-[![test.gif](https://s22.postimg.cc/4bkgw1475/test.gif)](https://postimg.cc/image/8xgl4dpq5/)
+https://github.com/syedwshah/calendar_app/blob/master/README.md
 
-GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 ## Notes
 
