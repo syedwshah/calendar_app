@@ -44,5 +44,5 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 ## Notes
 
-
-
+Thanks to Firebase usage of sockets, if the app is open by multiple sources, they all share the same rendered view!
+This makes React and Firebase a great combination, since they can seamlessly create live re-renders of React components.
